@@ -12,11 +12,21 @@ export default async function MyPage() {
   const student = await getLinkedStudent()
   if (!student) redirect('/setup')
 
-  const { data: journals } = await supabase
+  const { data: journals, error: journalsError } = await supabase
     .from('journals')
     .select('*, feedbacks(*)')
     .eq('student_id', student.id)
     .order('submitted_at', { ascending: false })
+
+  if (journalsError) {
+    return (
+      <main className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="max-w-lg mx-auto text-center py-16 text-red-500">
+          <p>기록을 불러오는 데 실패했습니다. 페이지를 새로고침해 주세요.</p>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="min-h-screen bg-gray-50 py-8 px-4">

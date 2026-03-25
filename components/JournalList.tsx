@@ -4,7 +4,7 @@ type Journal = {
   questions: string
   todays_task: string
   submitted_at: string
-  feedbacks: { content: string }[]
+  feedbacks: { content: string }[] | null
 }
 
 export default function JournalList({ journals }: { journals: Journal[] }) {
@@ -31,8 +31,8 @@ export default function JournalList({ journals }: { journals: Journal[] }) {
           </div>
           <div className="bg-blue-50 rounded-lg p-3">
             <p className="text-xs font-medium text-blue-600 mb-1">선생님 피드백</p>
-            {j.feedbacks.length > 0 ? (
-              <p className="text-sm text-gray-800">{j.feedbacks[0].content}</p>
+            {(j.feedbacks ?? []).length > 0 ? (
+              <p className="text-sm text-gray-800">{j.feedbacks![0].content}</p>
             ) : (
               <p className="text-sm text-gray-400">피드백 대기 중...</p>
             )}
