@@ -33,11 +33,17 @@ export default function SetupForm({ userId }: { userId: string }) {
   const handleConfirm = async () => {
     if (!student) return
     setLoading(true)
+    setError('')
     const supabase = createClient()
-    await supabase
+    const { error } = await supabase
       .from('students')
       .update({ google_user_id: userId })
       .eq('id', student.id)
+    if (error) {
+      setError('연동에 실패했습니다. 다시 시도해 주세요.')
+      setLoading(false)
+      return
+    }
     router.push('/journal')
   }
 
