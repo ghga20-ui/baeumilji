@@ -4,10 +4,22 @@ import { NextResponse } from 'next/server'
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
+  const oauthError = searchParams.get('error')
+
+  // 사용자가 Google 로그인 거부한 경우
+  if (oauthError) {
+    return NextResponse.redirect(`${origin}/?error=${encodeURIComponent(oauthError)}`)
+  }
 
   if (code) {
     const supabase = await createClient()
-    await supabase.auth.exchangeCodeForSession(code)
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+
+    // 코드 교환 실패 시 로그인 페이지로 리다이렉트
+    if (error) {
+      return NextResponse.redirect(`${origin}/?error=auth`)
+    }
+
     const { data: { user } } = await supabase.auth.getUser()
     if (user?.email) {
       // 교사 확인
