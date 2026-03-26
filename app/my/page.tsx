@@ -3,8 +3,22 @@ import { redirect } from 'next/navigation'
 import { getLinkedStudent } from '@/lib/auth'
 import JournalList from '@/components/JournalList'
 import Link from 'next/link'
+import { DEV_PREVIEW, mockJournals } from '@/lib/dev-preview'
 
 export default async function MyPage() {
+  if (DEV_PREVIEW) {
+    return (
+      <main className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="max-w-lg mx-auto">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-xl font-bold text-gray-800">내 배움일지</h1>
+            <Link href="/journal" className="text-sm text-blue-600">새로 쓰기</Link>
+          </div>
+          <JournalList journals={mockJournals} />
+        </div>
+      </main>
+    )
+  }
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')

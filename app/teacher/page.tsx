@@ -3,8 +3,21 @@ import { redirect } from 'next/navigation'
 import { isTeacher } from '@/lib/auth'
 import TeacherDashboard from '@/components/TeacherDashboard'
 import Link from 'next/link'
+import { DEV_PREVIEW, mockClasses, mockStudentsWithPending } from '@/lib/dev-preview'
 
 export default async function TeacherPage() {
+  if (DEV_PREVIEW) {
+    return (
+      <main className="min-h-screen bg-gray-50">
+        <div className="flex justify-between items-center px-6 py-4 bg-white border-b">
+          <h1 className="text-lg font-bold text-gray-800">배움일지 대시보드</h1>
+          <Link href="/teacher/students" className="text-sm text-blue-600">학생 관리</Link>
+        </div>
+        <TeacherDashboard classes={mockClasses} students={mockStudentsWithPending} />
+      </main>
+    )
+  }
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/')

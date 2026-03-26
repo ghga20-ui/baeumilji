@@ -23,6 +23,11 @@ export async function proxy(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   const { pathname } = request.nextUrl
 
+  // 개발 모드에서는 인증 없이 모든 페이지 접근 허용
+  if (process.env.NODE_ENV === 'development') {
+    return supabaseResponse
+  }
+
   // 비로그인 사용자는 / 로 리다이렉트
   if (!user && pathname !== '/') {
     return NextResponse.redirect(new URL('/', request.url))
