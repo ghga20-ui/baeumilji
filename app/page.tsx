@@ -40,7 +40,7 @@ export default function Home() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
           </svg>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-3 tracking-tight">배움일지</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-3 tracking-tight">효자고 국어 배움일지</h1>
         <p className="text-gray-500 text-base leading-relaxed max-w-xs">
           수업 후 오늘의 배움을 기록하고<br />선생님의 피드백을 받아보세요
         </p>
@@ -64,9 +64,6 @@ export default function Home() {
       {/* 로그인 버튼 */}
       <section className="px-5 pb-10 max-w-md mx-auto w-full">
         <LoginButton />
-        <p className="text-center text-xs text-gray-400 mt-4">
-          학교 Google 계정으로 로그인하세요
-        </p>
       </section>
     </main>
   )
